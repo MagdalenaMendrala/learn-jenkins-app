@@ -30,7 +30,8 @@ pipeline {
             steps {
                 sh '''
                     echo "Test stage"
-                    grep build/index.html
+                    ls -la
+                    grep index.html
                 '''
             }
         }
