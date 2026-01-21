@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         NETLIFY_SITE_ID = 'f33ff802-69f8-489d-b112-60b86fa537cf'
+        NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
     stages {
@@ -84,6 +85,7 @@ pipeline {
                   npm install netlify-cli@20.1.1
                   ./node_modules/.bin/netlify --version
                   echo "Deploying to production site: $NETLIFY_SITE_ID"
+                  ./node_modules/.bin/netlify status
                 '''
             }
         }
