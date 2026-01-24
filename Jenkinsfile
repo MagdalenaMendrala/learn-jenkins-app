@@ -91,5 +91,27 @@ pipeline {
                 '''
             }
         }
+
+        stage('Prod E2E') {
+                agent {
+                    docker {
+                        image 'mcr.microsoft.com/playwright:v1.57.0-noble'
+                        reuseNode true
+                    }
+                }
+                environment {
+                    CI_ENVIRONMENT_URL = 'https://steady-bubblegum-067976.netlify.app'
+                }
+                steps {
+                    sh '''
+                        npx playwright test --reporter=html
+                    '''
+                }
+                post {
+                    always {
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                    }
+                }
+            }
     }
 }
